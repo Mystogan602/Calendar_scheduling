@@ -41,8 +41,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - TailwindCSS
 - Prisma
 - Supabase
-- PostgreSQL
 - Auth.js
 - Shadcn/ui
 - Radix UI
 - React Icons
+- Lucide Icons
+## Features
+
+- [x] Authentication
+- [ ] Dashboard
+- [ ] Calendar
+- [ ] Availability
+- [ ] Meetings
+- [ ] Event Types
+- [ ] Settings

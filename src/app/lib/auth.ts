@@ -7,4 +7,7 @@ import { prisma } from "./db"
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [GitHub, Google],
     adapter: PrismaAdapter(prisma),
-})
+    session: {
+        strategy: "database"
+    },
+})  
