@@ -13,6 +13,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Lucide Icons
 - Zod 
 - Conform
+- Nylas
 ## Features
 
 - [x] Authentication

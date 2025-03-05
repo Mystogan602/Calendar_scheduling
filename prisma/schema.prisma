@@ -22,6 +22,8 @@ model User {
   image         String?
   userName      String?          @unique
   accounts      Account[]
+  grantId       String?
+  grantEmail    String?
   sessions      Session[]
  
   createdAt DateTime @default(now())
