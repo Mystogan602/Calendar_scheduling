@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth, signOut } from "../lib/auth";
 import { requireUser } from "../lib/hooks";
-import { prisma } from "../lib/db";
+import prisma from "../lib/db";
 import { redirect } from "next/navigation";
 
 async function getData(id: string) {
@@ -39,7 +39,7 @@ async function getData(id: string) {
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await requireUser();
-  
+
   if (!session?.user) {
     return redirect("/");
   }
@@ -113,10 +113,12 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <form action={async () => {
-                      "use server";
-                      await signOut();
-                    }}>
+                    <form
+                      action={async () => {
+                        "use server";
+                        await signOut();
+                      }}
+                    >
                       <button className="flex items-center gap-2 w-full text-left">
                         <LogOut className="size-4" />
                         <span>Logout</span>
@@ -127,7 +129,9 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex flex-1 flex-col gap-4 p-4 lg:p-6 lg:gap-6">{children}</main>
+          <main className="flex flex-1 flex-col gap-4 p-4 lg:p-6 lg:gap-6">
+            {children}
+          </main>
         </div>
       </div>
     </>

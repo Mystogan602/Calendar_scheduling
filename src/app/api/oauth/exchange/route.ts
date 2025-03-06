@@ -2,7 +2,7 @@ import { requireUser } from "@/app/lib/hooks";
 import { NextRequest } from "next/server";
 import { nylas } from "@/app/lib/nylas";
 import { nylasConfig } from "@/app/lib/nylas";
-import { prisma } from "@/app/lib/db";
+import prisma from "@/app/lib/db";
 import { redirect } from "next/navigation";
 
 export async function GET(req: NextRequest) {

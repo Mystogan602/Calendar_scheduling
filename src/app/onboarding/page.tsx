@@ -9,17 +9,16 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { onboardingAction } from "../actions";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { useForm } from "@conform-to/react";
 import { onboardingSchemaLocale } from "../lib/zodSchemas";
 import { parseWithZod } from "@conform-to/zod";
 import { SubmitButton } from "../components/SubmitButtons";
 
 export default function OnboardingPage() {
-  const [lastResult, action] = useFormState(onboardingAction, undefined);
+  const [lastResult, action] = useActionState(onboardingAction, undefined);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {

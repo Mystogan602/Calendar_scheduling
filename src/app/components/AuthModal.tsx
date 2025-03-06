@@ -25,6 +25,9 @@ const AuthModal = () => {
           </h4>
         </DialogHeader>
         <div className="flex flex-col mt-5 gap-3">
+          <DialogTitle className="text-center text-sm text-muted-foreground">
+            Sign in to your account
+          </DialogTitle>
           <form
             action={async () => {
               "use server";
