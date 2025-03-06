@@ -52,3 +52,11 @@ export function onboardingSchema(options?: {
       ),
   });
 }
+
+export const settingSchema = z.object({
+  fullName: z
+    .string()
+    .min(3, { message: "Name must be at least 3 characters" })
+    .max(150, { message: "Name must be less than 150 characters" }),
+  profileImage: z.string().url({ message: "Image must be a valid URL" }),
+});
