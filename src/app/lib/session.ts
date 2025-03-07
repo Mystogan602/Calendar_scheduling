@@ -18,12 +18,15 @@ type SessionWithUser = {
 export async function getSession(): Promise<SessionWithUser | null> {
   try {
     const session_token = (await cookies()).get("authjs.session-token")?.value;
+
+    if (!session_token) return null;
+
     const session = await prisma.session.findUnique({
       where: {
-        sessionToken: session_token || "",
+        sessionToken: session_token,
       },
       include: {
-        user: true, // Bao gồm thông tin user
+        user: true,
       },
     });
 
@@ -42,7 +45,7 @@ export async function getSession(): Promise<SessionWithUser | null> {
       return null;
     }
 
-    return session;
+    return session as SessionWithUser;
   } catch (error) {
     console.error("Lỗi khi lấy session:", error);
     return null;
