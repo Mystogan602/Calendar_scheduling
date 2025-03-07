@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 
     const { grantId, email } = token;
     await prisma.user.update({
-      where: { id: session.user?.id },
+      where: { id: session.userId },
       data: { grantId: grantId, grantEmail: email },
     });
   } catch (error) {

@@ -1,8 +1,8 @@
-import { auth } from "@/app/lib/auth"
+import { getSession } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 
 export async function requireUser() {
-    const session = await auth()
+    const session = await getSession();
     if (!session?.user) {
         redirect("/")
     }

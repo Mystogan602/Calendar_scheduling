@@ -40,10 +40,10 @@ async function getData(id: string) {
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await requireUser();
 
-  if (!session?.user) {
+  if (!session?.userId) {
     return redirect("/");
   }
-  const data = await getData(session.user.id as string);
+  const data = await getData(session.userId);
 
   return (
     <>

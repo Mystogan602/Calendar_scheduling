@@ -24,7 +24,7 @@ async function getData(id: string) {
 
 const SettingsPage = async () => {
   const session = await requireUser();
-  const user = await getData(session.user?.id as string);
+  const user = await getData(session.userId);
   return (
     <div>
       <SettingForm name={user.name as string} email={user.email as string} image={user.image as string} />

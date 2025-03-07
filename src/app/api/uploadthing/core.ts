@@ -23,10 +23,10 @@ export const ourFileRouter = {
       const session = await requireUser();
 
       // If you throw, the user will not be able to upload
-      if (!session.user?.id) throw new UploadThingError("Unauthorized");
+      if (!session.userId) throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: session.user?.id };
+      return { userId: session.userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
 
