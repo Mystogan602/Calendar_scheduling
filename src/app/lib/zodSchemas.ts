@@ -60,3 +60,23 @@ export const settingSchema = z.object({
     .max(150, { message: "Name must be less than 150 characters" }),
   profileImage: z.string().url({ message: "Image must be a valid URL" }),
 });
+
+export const eventTypeSchema = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must be at least 3 characters" })
+    .max(150, { message: "Title must be less than 150 characters" }),
+  duration: z
+    .number()
+    .min(1, { message: "Duration must be at least 1 minute" })
+    .max(100, { message: "Duration must be less than 100 minutes" }),
+  url: z
+    .string()
+    .min(3, { message: "URL must be at least 3 characters" })
+    .max(150, { message: "URL must be less than 150 characters" }),
+  description: z
+    .string()
+    .min(3, { message: "Description must be at least 3 characters" })
+    .max(300, { message: "Description must be less than 300 characters" }),
+  videoCallSoftware: z.enum(["Google Meet", "Zoom", "Microsoft Teams"]),
+});
