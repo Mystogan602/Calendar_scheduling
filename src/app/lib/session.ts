@@ -17,7 +17,8 @@ type SessionWithUser = {
 
 export async function getSession(): Promise<SessionWithUser | null> {
   try {
-    const session_token = (await cookies()).get("authjs.session-token")?.value;
+    const cookieStore = await cookies();
+    const session_token = cookieStore.get("authjs.session-token")?.value;
 
     if (!session_token) return null;
 
@@ -30,23 +31,15 @@ export async function getSession(): Promise<SessionWithUser | null> {
       },
     });
 
-    if (!session) {
-      return null;
-    }
+    await prisma.$disconnect();
 
-    // Kiểm tra session đã hết hạn chưa
-    if (session.expires < new Date()) {
-      // Nếu hết hạn thì xóa session
-      await prisma.session.delete({
-        where: {
-          id: session.id,
-        },
-      });
+    if (!session || session.expires < new Date()) {
       return null;
     }
 
     return session as SessionWithUser;
   } catch (error) {
+    await prisma.$disconnect();
     console.error("Lỗi khi lấy session:", error);
     return null;
   }
