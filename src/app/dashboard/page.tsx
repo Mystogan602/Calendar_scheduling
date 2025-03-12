@@ -14,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
+import { CopyLink } from "../components/CopyLink";
 async function getData(id: string) {
   const user = await prisma.user.findUnique({
     where: {
@@ -94,6 +94,7 @@ const Dashboard = async () => {
                             <span>Preview</span>
                           </Link>
                         </DropdownMenuItem>
+                        <CopyLink link={`${process.env.NEXT_PUBLIC_APP_URL}/${user.userName}/${eventType.url}`} />
                         <DropdownMenuItem asChild>
                           <Link href={`/dashboard/event/${eventType.id}`}>
                             <Pencil className="size-4 mr-2" />
