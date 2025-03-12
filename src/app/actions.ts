@@ -3,9 +3,14 @@
 import { revalidatePath } from "next/cache";
 import prisma from "./lib/db";
 import { requireUser } from "./lib/hooks";
-import { eventTypeSchema, onboardingSchema, settingSchema } from "./lib/zodSchemas";
+import {
+  eventTypeSchema,
+  onboardingSchema,
+  settingSchema,
+} from "./lib/zodSchemas";
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
+import { nylas } from "./lib/nylas";
 
 export async function onboardingAction(lastResult: any, formData: FormData) {
   const session = await requireUser();
@@ -142,7 +147,10 @@ export async function updateAvailabilityAction(formData: FormData) {
   }
 }
 
-export async function createEventTypeAction(lastResult: any, formData: FormData) {
+export async function createEventTypeAction(
+  lastResult: any,
+  formData: FormData
+) {
   const session = await requireUser();
 
   const submission = await parseWithZod(formData, {
@@ -165,4 +173,73 @@ export async function createEventTypeAction(lastResult: any, formData: FormData)
   });
 
   return redirect("/dashboard");
+}
+
+export async function createMeetingAction(formData: FormData) {
+  const session = await requireUser();
+
+  const getUserData = await prisma.user.findUnique({
+    where: {
+      userName: formData.get("username") as string,
+    },
+    select: {
+      grantEmail: true,
+      grantId: true,
+    },
+  });
+
+  if (!getUserData) {
+    throw new Error("User not found");
+  }
+
+  const eventData = await prisma.eventType.findUnique({
+    where: {
+      id: formData.get("eventId") as string,
+    },
+    select: {
+      title: true,
+      description: true,
+    },
+  });
+
+  if (!eventData) {
+    throw new Error("Event not found");
+  }
+
+  const formTime = formData.get("time") as string;
+  const eventDate = formData.get("date") as string;
+  const duration = Number(formData.get("duration"));
+  const provider = formData.get("provider") as string;
+
+  const startDateTime = new Date(`${eventDate}T${formTime}:00`);
+  const endDateTime = new Date(startDateTime.getTime() + duration * 60000);
+
+  await nylas.events.create({
+    identifier: getUserData?.grantId as string,
+    requestBody: {
+      title: eventData?.title,
+      description: eventData?.description,
+      when: {
+        startTime: Math.floor(startDateTime.getTime() / 1000),
+        endTime: Math.floor(endDateTime.getTime() / 1000),
+      },
+      conferencing: {
+        autocreate: {},
+        provider: provider as any,
+      },
+      participants: [
+        {
+          email: formData.get("email") as string,
+          name: formData.get("name") as string,
+          status: "yes",
+        },
+      ],
+    },
+    queryParams: {
+      calendarId: getUserData?.grantEmail as string,
+      notifyParticipants: true,
+    },
+  });
+
+  return redirect("/success");
 }
