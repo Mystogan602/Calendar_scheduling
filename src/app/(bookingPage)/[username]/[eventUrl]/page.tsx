@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CalendarX2, Video, Clock } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import RenderCalendar from "@/app/components/bookingForm/RenderCalendar";
+import TimeTable from "@/app/components/bookingForm/TimeTable";
 
 async function getData(username: string, eventUrl: string) {
   const event = await prisma.eventType.findFirst({
@@ -47,11 +48,11 @@ export default async function BookingPage({
   params: { username: string; eventUrl: string };
   searchParams: { date?: string; time?: string };
 }) {
-  const selectedDate = searchParams.date
-    ? new Date(searchParams.date)
-    : new Date();
+  const { username, eventUrl } = await Promise.resolve(params);
+  const { date, time } = await Promise.resolve(searchParams);
+  const selectedDate = date ? new Date(date) : new Date();
 
-  const event = await getData(params.username, params.eventUrl);
+  const event = await getData(username, eventUrl);
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -115,7 +116,11 @@ export default async function BookingPage({
             className="hidden md:block h-full w-px"
             orientation="vertical"
           />
-
+          <TimeTable
+            selectedDate={selectedDate}
+            username={username}
+            meetingDuration={event.duration}
+          />
         </CardContent>
       </Card>
     </div>
