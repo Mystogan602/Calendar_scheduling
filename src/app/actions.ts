@@ -11,7 +11,7 @@ import {
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { nylas } from "./lib/nylas";
-
+import { getSession } from "./lib/session";
 export async function onboardingAction(lastResult: any, formData: FormData) {
   const session = await requireUser();
 
@@ -242,4 +242,32 @@ export async function createMeetingAction(formData: FormData) {
   });
 
   return redirect("/success");
+}
+
+export async function cancelMeetingAction(formData: FormData) {
+  const session = await requireUser();
+
+  const userData = await prisma.user.findUnique({
+    where: {
+      id: session?.userId,
+    },
+    select: {
+      grantId: true,
+      grantEmail: true,
+    },
+  });
+
+  if (!userData) {
+    throw new Error("User not found");
+  }
+
+  const eventData = await nylas.events.destroy({
+    eventId: formData.get("eventId") as string,
+    identifier: userData?.grantId as string,
+    queryParams: {
+      calendarId: userData?.grantEmail as string,
+    },
+  });
+
+  revalidatePath("/dashboard/meetings");
 }
