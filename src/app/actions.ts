@@ -309,3 +309,31 @@ export async function updateEventTypeAction(
 
   return redirect("/dashboard");
 }
+
+export async function toggleEventTypeAction(
+  lastResult: any,
+  { eventTypeId, active }: { eventTypeId: string; active: boolean }
+) {
+  try {
+    const session = await requireUser();
+
+    const data = await prisma.eventType.update({
+      where: { id: eventTypeId, userId: session.userId },
+      data: {
+        active,
+      },
+    });
+
+    revalidatePath("/dashboard");
+
+    return {
+      status: "success",
+      message: "Event type updated",
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      error: "Error updating event type",
+    };
+  }
+}

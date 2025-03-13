@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { CopyLink } from "../components/CopyLink";
+import { EventTypeSwitcher } from "../components/EventTypeSwitcher";
 async function getData(id: string) {
   const user = await prisma.user.findUnique({
     where: {
@@ -94,7 +95,9 @@ const Dashboard = async () => {
                             <span>Preview</span>
                           </Link>
                         </DropdownMenuItem>
-                        <CopyLink link={`${process.env.NEXT_PUBLIC_APP_URL}/${user.userName}/${eventType.url}`} />
+                        <CopyLink
+                          link={`${process.env.NEXT_PUBLIC_APP_URL}/${user.userName}/${eventType.url}`}
+                        />
                         <DropdownMenuItem asChild>
                           <Link href={`/dashboard/event/${eventType.id}`}>
                             <Pencil className="size-4 mr-2" />
@@ -138,9 +141,16 @@ const Dashboard = async () => {
                 </Link>
 
                 <div className="bg-muted dark:bg-gray-900 px-5 py-3 flex justify-between items-center">
-                  <Link href={`/dashboard/event/${eventType.id}`}>
-                    <Button>Edit event</Button>
-                  </Link>
+                  <EventTypeSwitcher
+                    eventTypeId={eventType.id}
+                    initialChecked={eventType.active}
+                  />
+
+                  <Button asChild>
+                    <Link href={`/dashboard/event/${eventType.id}`}>
+                      Edit event
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}
