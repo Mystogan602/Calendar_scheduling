@@ -18,6 +18,8 @@ import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 async function getData(id: string) {
   const data = await prisma.user.findUnique({
     where: {

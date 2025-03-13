@@ -40,7 +40,7 @@ export async function getSession(): Promise<SessionWithUser | null> {
     return session as SessionWithUser;
   } catch (error) {
     await prisma.$disconnect();
-    console.error("Lỗi khi lấy session:", error);
+    console.error("Get session error:", error);
     return null;
   }
 }
