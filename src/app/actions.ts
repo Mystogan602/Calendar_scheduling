@@ -271,3 +271,41 @@ export async function cancelMeetingAction(formData: FormData) {
 
   revalidatePath("/dashboard/meetings");
 }
+
+export async function updateEventTypeAction(
+  lastResult: any,
+  formData: FormData
+) {
+  const session = await requireUser();
+
+  const submission = await parseWithZod(formData, {
+    schema: eventTypeSchema,
+    // ({
+    //   async isUrlUnique() {
+    //     const url = formData.get("url") as string;
+    //     const eventType = await prisma.eventType.findFirst({
+    //       where: { url, userId: session.userId },
+    //     });
+    //     return !eventType;
+    //   },
+    // }),
+    // async: true,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const data = await prisma.eventType.update({
+    where: { id: formData.get("id") as string, userId: session.userId },
+    data: {
+      title: submission.value.title,
+      duration: submission.value.duration,
+      url: submission.value.url,
+      description: submission.value.description,
+      videoCallSoftware: submission.value.videoCallSoftware,
+    },
+  });
+
+  return redirect("/dashboard");
+}
