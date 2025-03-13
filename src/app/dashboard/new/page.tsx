@@ -30,7 +30,7 @@ import { useForm } from "@conform-to/react";
 import { eventTypeSchema } from "@/app/lib/zodSchemas";
 import { parseWithZod } from "@conform-to/zod";
 
-type VideoCallSoftware = "Google Meet" | "Zoom" | "Microsoft Teams";
+type VideoCallSoftware = "Google Meet" | "Zoom Meeting" | "Microsoft Teams";
 
 export default function NewEventType() {
   const [lastResult, action] = useActionState(createEventTypeAction, undefined);
@@ -165,12 +165,16 @@ export default function NewEventType() {
                 <Button
                   className="flex-1"
                   type="button"
-                  onClick={() => handleVideoCallSoftwareChange("Zoom")}
+                  onClick={() =>
+                    handleVideoCallSoftwareChange("Zoom Meeting")
+                  }
                   variant={
-                    selectedVideoCallSoftware === "Zoom" ? "default" : "outline"
+                    selectedVideoCallSoftware === "Zoom Meeting"
+                      ? "default"
+                      : "outline"
                   }
                 >
-                  Zoom
+                  Zoom Meeting
                 </Button>
                 <Button
                   className="flex-1"

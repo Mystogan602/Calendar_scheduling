@@ -2,7 +2,7 @@ import prisma from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import { EditEventTypeForm } from "@/app/components/EditEventTypeForm";
 
-type VideoCallSoftware = "Google Meet" | "Zoom" | "Microsoft Teams";
+type VideoCallSoftware = "Google Meet" | "Zoom Meeting" | "Microsoft Teams";
 
 async function getEvent(eventTypeId: string) {
   const event = await prisma.eventType.findUnique({
@@ -29,9 +29,10 @@ async function getEvent(eventTypeId: string) {
 export default async function EventPage({
   params,
 }: {
-  params: { eventTypeId: string };
+  params: Promise<{ eventTypeId: string }>;
 }) {
-  const event = await getEvent(params.eventTypeId);
+  const resolvedParams = await params;
+  const event = await getEvent(resolvedParams.eventTypeId);
   return (
     <EditEventTypeForm
       eventTypeId={event.id}

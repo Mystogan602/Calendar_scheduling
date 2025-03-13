@@ -78,5 +78,5 @@ export const eventTypeSchema = z.object({
     .string()
     .min(3, { message: "Description must be at least 3 characters" })
     .max(300, { message: "Description must be less than 300 characters" }),
-  videoCallSoftware: z.enum(["Google Meet", "Zoom", "Microsoft Teams"]),
+  videoCallSoftware: z.enum(["Google Meet", "Zoom Meeting", "Microsoft Teams"]),
 });

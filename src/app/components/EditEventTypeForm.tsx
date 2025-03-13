@@ -31,7 +31,7 @@ import { useState } from "react";
 import { eventTypeSchema } from "../lib/zodSchemas";
 import { updateEventTypeAction } from "../actions";
 
-type VideoCallSoftware = "Google Meet" | "Zoom" | "Microsoft Teams";
+type VideoCallSoftware = "Google Meet" | "Zoom Meeting" | "Microsoft Teams";
 
 interface EditEventTypeFormProps {
   eventTypeId: string;
@@ -62,7 +62,7 @@ export function EditEventTypeForm({
   });
 
   const [selectedVideoCallSoftware, setSelectedVideoCallSoftware] =
-    useState<VideoCallSoftware>(videoCallSoftware);
+    useState<VideoCallSoftware>(videoCallSoftware as VideoCallSoftware);
 
   const handleVideoCallSoftwareChange = (software: VideoCallSoftware) => {
     setSelectedVideoCallSoftware(software);
@@ -78,11 +78,7 @@ export function EditEventTypeForm({
           </CardDescription>
         </CardHeader>
         <form noValidate id={form.id} onSubmit={form.onSubmit} action={action}>
-          <input
-            type="hidden"
-            name="id"
-            value={eventTypeId}
-          />
+          <input type="hidden" name="id" value={eventTypeId} />
           <CardContent className="grid gap-y-5">
             <div className="flex flex-col gap-y-2">
               <Label>Title</Label>
@@ -166,7 +162,7 @@ export function EditEventTypeForm({
               <input
                 type="hidden"
                 name={fields.videoCallSoftware.name}
-                value={videoCallSoftware}
+                value={selectedVideoCallSoftware}
               />
               <Label>Video Call Provider</Label>
               <ButtonGroup className="flex w-full">
@@ -185,12 +181,14 @@ export function EditEventTypeForm({
                 <Button
                   className="flex-1"
                   type="button"
-                  onClick={() => handleVideoCallSoftwareChange("Zoom")}
+                  onClick={() => handleVideoCallSoftwareChange("Zoom Meeting")}
                   variant={
-                    selectedVideoCallSoftware === "Zoom" ? "default" : "outline"
+                    selectedVideoCallSoftware === "Zoom Meeting"
+                      ? "default"
+                      : "outline"
                   }
                 >
-                  Zoom
+                  Zoom Meeting
                 </Button>
                 <Button
                   className="flex-1"

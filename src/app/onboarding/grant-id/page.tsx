@@ -15,7 +15,7 @@ export default function GrantIdPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
-            You're almost done!
+            You are almost done!
           </CardTitle>
           <CardDescription className="text-center">
             We have to now connect your calendar to your account.
