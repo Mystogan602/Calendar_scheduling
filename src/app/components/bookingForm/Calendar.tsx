@@ -8,15 +8,15 @@ export default function Calendar(
     isDateUnavailable?: (date: DateValue) => boolean;
   }
 ) {
-  let { locale } = useLocale();
-  let state = useCalendarState({
+  const { locale } = useLocale();
+  const state = useCalendarState({
     ...props,
     visibleDuration: { months: 1 },
     locale,
     createCalendar,
   });
 
-  let { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(
+  const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(
     props,
     state
   );

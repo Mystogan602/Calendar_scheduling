@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { auth, signOut } from "../lib/auth";
+import { signOut } from "../lib/auth";
 import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
@@ -94,7 +94,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
                     className="rounded-full"
                   >
                     <Image
-                      src={(session?.user?.image as string) || ""}
+                      src={session?.user?.image as string}
                       alt="profile"
                       height={20}
                       width={20}

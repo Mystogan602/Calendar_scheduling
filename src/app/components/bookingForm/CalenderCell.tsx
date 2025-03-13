@@ -19,8 +19,8 @@ export default function CalenderCell({
   currentMonth: CalendarDate;
   isUnavailable?: boolean;
 }) {
-  let ref = useRef<HTMLDivElement>(null);
-  let {
+  const ref = useRef<HTMLDivElement>(null);
+  const {
     cellProps,
     buttonProps,
     isSelected,

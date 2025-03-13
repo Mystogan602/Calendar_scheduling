@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import AuthModal from "../AuthModal";
 
 export default function CTA() {

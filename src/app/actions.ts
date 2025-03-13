@@ -11,7 +11,7 @@ import {
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { nylas } from "./lib/nylas";
-import { getSession } from "./lib/session";
+
 export async function onboardingAction(lastResult: any, formData: FormData) {
   const session = await requireUser();
 

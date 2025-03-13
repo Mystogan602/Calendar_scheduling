@@ -1,5 +1,5 @@
 import prisma from "@/app/lib/db";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { CalendarX2, Video, Clock } from "lucide-react";

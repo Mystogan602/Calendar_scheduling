@@ -18,9 +18,9 @@ export default function CalendarGrid({
 }) {
   const startDate = state.visibleRange.start.add(offset);
   const endDate = endOfMonth(startDate);
-  let { locale } = useLocale();
+  const { locale } = useLocale();
   const weeksInMonth = getWeeksInMonth(startDate, locale);
-  let { gridProps, headerProps, weekDays } = useCalendarGrid(
+  const { gridProps, headerProps, weekDays } = useCalendarGrid(
     {
       startDate,
       endDate,
