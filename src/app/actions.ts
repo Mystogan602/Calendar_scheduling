@@ -337,3 +337,13 @@ export async function toggleEventTypeAction(
     };
   }
 }
+
+export async function deleteEventTypeAction(formData  : FormData) {
+  const session = await requireUser();
+
+  await prisma.eventType.delete({
+    where: { id: formData.get("id") as string, userId: session.userId },
+  });
+
+  return redirect("/dashboard");
+}
