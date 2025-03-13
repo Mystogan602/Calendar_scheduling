@@ -46,15 +46,21 @@ async function getData(username: string, eventUrl: string) {
   return event;
 }
 
-export default async function BookingPage({
-  params,
-  searchParams,
-}: {
-  params: { username: string; eventUrl: string };
-  searchParams: { date?: string; time?: string };
-}) {
-  const { username, eventUrl } = await Promise.resolve(params);
-  const { date, time } = await Promise.resolve(searchParams);
+interface PageProps {
+  params: Promise<{
+    username: string;
+    eventUrl: string;
+  }>;
+  searchParams: {
+    date?: string;
+    time?: string;
+  };
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const { username, eventUrl } = resolvedParams;
+  const { date, time } = await searchParams;
   const selectedDate = date ? new Date(date) : new Date();
 
   const event = await getData(username, eventUrl);

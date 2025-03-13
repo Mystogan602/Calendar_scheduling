@@ -19,11 +19,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - [x] Authentication
 - [x] Dashboard
-- [ ] Calendar
-- [ ] Availability
-- [ ] Meetings
-- [ ] Event Types
-- [ ] Settings
+- [x] Calendar
+- [x] Availability
+- [x] Meetings
+- [x] Event Types
+- [x] Settings
 
 ## Getting Started
 

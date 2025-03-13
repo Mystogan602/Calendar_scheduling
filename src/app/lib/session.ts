@@ -31,12 +31,12 @@ export async function getSession(): Promise<SessionWithUser | null> {
       },
     });
 
-    await prisma.$disconnect();
-
     if (!session || session.expires < new Date()) {
+      await prisma.$disconnect();
       return null;
     }
 
+    await prisma.$disconnect();
     return session as SessionWithUser;
   } catch (error) {
     await prisma.$disconnect();
